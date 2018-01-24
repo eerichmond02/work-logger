@@ -47,7 +47,7 @@ class WorkForm extends Component {
           <div>
             <div className="row">
               <label>Project</label>
-                <select name='project' value={this.props.project} onChange={this.props.handleChange}>
+                <select name='project' onChange={this.props.handleChange}>
                   <option value="Personal">Personal</option>
                   <option value="Work">Work</option>
               </select>
@@ -100,7 +100,7 @@ class App extends Component {
 
   handleAdd(e) {
     e.preventDefault();
-    let newTask = new TaskItem(this.state.project, this.state.description, this.state.minutes);
+    let newTask = new TaskItem(this.state.description, this.state.minutes);
     if (this.state.project === 'Personal'){
       let newArr = this.state.personalTasks;
       newArr.push(newTask);
@@ -159,8 +159,7 @@ class App extends Component {
 }
 
 class TaskItem {
-  constructor(project, description, minutes) {
-    this.project = project;
+  constructor(description, minutes) {
     this.description = description;
     this.minutes = minutes;
   }
