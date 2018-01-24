@@ -2,73 +2,68 @@ import React, { Component } from 'react';
 import './App.css';
 
 
-class Task extends Component {
-  render() {
-    return(
-      <div className="row">
-        <div className="task">
-          <div className="taskInner">
-            <p className="taskHeading">Personal</p>
-            <p>{timeFormat(this.props.personalTime)}</p>
-          </div>
-            {
-              this.props.personalTasks.map((task, idx) => (
-                <div className="taskInner2" key={idx}>
-                  <p className="time">{timeFormat(task.minutes)}</p>
-                  <p className="taskParagraph">{task.description}</p>
-                </div>
-              ))
-            }
+const Task = (props) => {
+  return(
+    <div className="row">
+      <div className="task">
+        <div className="taskInner">
+          <p className="taskHeading">Personal</p>
+          <p>{timeFormat(props.personalTime)}</p>
         </div>
-        <div className="task">
-          <div className="taskInner">
-            <p className="taskHeading">Work</p>
-            <p>{timeFormat(this.props.workTime)}</p>
-          </div>
-            {
-              this.props.workTasks.map((task, idx) => (
-                <div className="taskInner2" key={idx}>
-                  <p className="time">{timeFormat(task.minutes)}</p>
-                  <p className="taskParagraph">{task.description}</p>
-                </div>
-              ))
-            }
-        </div>
+          {
+            props.personalTasks.map((task, idx) => (
+              <div className="taskInner2" key={idx}>
+                <p className="time">{timeFormat(task.minutes)}</p>
+                <p className="taskParagraph">{task.description}</p>
+              </div>
+            ))
+          }
       </div>
-    );
-  }
+      <div className="task">
+        <div className="taskInner">
+          <p className="taskHeading">Work</p>
+          <p>{timeFormat(props.workTime)}</p>
+        </div>
+          {
+            props.workTasks.map((task, idx) => (
+              <div className="taskInner2" key={idx}>
+                <p className="time">{timeFormat(task.minutes)}</p>
+                <p className="taskParagraph">{task.description}</p>
+              </div>
+            ))
+          }
+      </div>
+    </div>
+  );
 }
 
-
-class WorkForm extends Component {
-  render() {
-    return (
-        <form>
-          <div>
-            <div className="row">
-              <label>Project</label>
-                <select name='project' onChange={this.props.handleChange}>
-                  <option value="Personal">Personal</option>
-                  <option value="Work">Work</option>
-              </select>
-            </div>
-            <div className="row">
-              <label>Description</label>
-              <input type='text' name='description' value={this.props.description} onChange={this.props.handleChange}></input>
-              <span className="error">{this.props.descriptionError}</span>
-            </div>
-            <div className="row">
-              <label>Minutes</label>
-              <input type='number' min="1" max="240" name='minutes' value={this.props.minutes} onChange={this.props.handleChange} id="minutesInput"></input>
-              <span className="error">{this.props.minutesError}</span>
-            </div>  
-            <div className="row">
-              <button disabled={!this.props.minutesValidated || !this.props.descripValidated} onClick={this.props.handleAdd}>Add</button> 
-            </div>
-          </div>                                      
-        </form>
-    );
-  }
+const WorkForm = (props) => {
+  return (
+      <form>
+        <div>
+          <div className="row">
+            <label>Project</label>
+              <select name='project' onChange={props.handleChange}>
+                <option value="Personal">Personal</option>
+                <option value="Work">Work</option>
+            </select>
+          </div>
+          <div className="row">
+            <label>Description</label>
+            <input type='text' name='description' value={props.description} onChange={props.handleChange}></input>
+            <span className="error">{props.descriptionError}</span>
+          </div>
+          <div className="row">
+            <label>Minutes</label>
+            <input type='number' min="1" max="240" name='minutes' value={props.minutes} onChange={props.handleChange} id="minutesInput"></input>
+            <span className="error">{props.minutesError}</span>
+          </div>  
+          <div className="row">
+            <button disabled={!props.minutesValidated || !props.descripValidated} onClick={props.handleAdd}>Add</button> 
+          </div>
+        </div>                                      
+      </form>
+  );
 }
 
 class App extends Component {
