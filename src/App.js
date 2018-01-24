@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import './ui-toolkit/css/nm-cx/main.css'
+import './ui-toolkit/css/nm-cx/main.css' //* Need to download these
 
 const Task = (props) => (
   props.tasks.map((task, idx) => (
