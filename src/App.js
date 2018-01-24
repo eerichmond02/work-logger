@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import './ui-toolkit/css/nm-cx/main.css'
 
 const Task = (props) => (
   props.tasks.map((task, idx) => (
@@ -12,20 +13,30 @@ const Task = (props) => (
 
 const TaskDisplay = (props) => {
   return(
-    <div className="row">
-      <div className="task">
-        <div className="taskInner">
-          <p className="taskHeading">Personal</p>
-          <p>{timeFormat(props.personalTime)}</p>
+    <div>
+      <div className="row">
+        <div className="medium-6 columns">
+          <div className="medium-12 medium-centered columns border">
+            <div className="task">
+              <div className="taskInner">
+                <h4 className="taskHeading">Personal</h4>
+                <p>{timeFormat(props.personalTime)}</p>
+              </div>
+              <Task tasks={props.personalTasks}/>
+            </div>
+          </div>
         </div>
-          <Task tasks={props.personalTasks}/>
-      </div>
-      <div className="task">
-        <div className="taskInner">
-          <p className="taskHeading">Work</p>
-          <p>{timeFormat(props.workTime)}</p>
+        <div className="medium-6 columns">
+          <div className="medium-12 medium-centered columns border">
+            <div className="task">
+              <div className="taskInner">
+                <h4 className="taskHeading">Work</h4>
+                <p>{timeFormat(props.workTime)}</p>
+              </div>
+              <Task tasks={props.workTasks}/>
+            </div>
+          </div>
         </div>
-          <Task tasks={props.workTasks}/>
       </div>
     </div>
   );
@@ -34,28 +45,35 @@ const TaskDisplay = (props) => {
 const WorkForm = (props) => {
   return (
       <form>
-        <div>
           <div className="row">
-            <label>Project</label>
-              <select name='project' onChange={props.handleChange}>
+            <div className="large-12 columns uitk-select md-text-field with-floating-label">
+              <select className="os-default" name='project' onChange={props.handleChange}>
+                <option disabled selected disabled>Select an Option</option>
                 <option value="Personal">Personal</option>
                 <option value="Work">Work</option>
-            </select>
+              </select>
+              <span className="select-arrow"></span>
+              <label>Project</label>
+            </div>
           </div>
           <div className="row">
-            <label>Description</label>
-            <input type='text' name='description' value={props.description} onChange={props.handleChange}></input>
-            <span className="error">{props.descriptionError}</span>
+            <div className="large-12 columns md-text-field with-floating-label">
+              <input type='text' name='description' value={props.description} onChange={props.handleChange} required id="descrip"></input>
+              <label htmlFor="descrip">Description</label>
+              <span className="error">{props.descriptionError}</span>
+            </div>
           </div>
           <div className="row">
-            <label>Minutes</label>
-            <input type='number' min="1" max="240" name='minutes' value={props.minutes} onChange={props.handleChange} id="minutesInput"></input>
-            <span className="error">{props.minutesError}</span>
+            <div className="large-12 columns md-text-field with-floating-label">
+              <input type='number' min="1" max="240" name='minutes' value={props.minutes} onChange={props.handleChange} id="minutesInput"></input>
+              <label htmlFor="minutesInput">Minutes</label>
+              <span className="error">{props.minutesError}</span>
+            </div>
           </div>  
-          <div className="row">
-            <button disabled={!props.minutesValidated || !props.descripValidated} onClick={props.handleAdd}>Add</button> 
-          </div>
-        </div>                                      
+          <br />
+          <div className="rowLeft">
+            <button disabled={!props.minutesValidated || !props.descripValidated || !props.projectValidated} onClick={props.handleAdd} className="button btn-cta small">Add</button> 
+          </div>                                    
       </form>
   );
 }
@@ -64,7 +82,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      project: 'Personal',
+      project: '',
       description: '',
       minutes: 1,
       personalTasks: [],
@@ -75,6 +93,7 @@ class App extends Component {
       descriptionError: '',
       minutesValidated: false,
       minutesError: '',
+      projectValidated: false,
     }
     this.handleAdd = this.handleAdd.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -112,6 +131,11 @@ class App extends Component {
   }
 
   validate() {
+    if (this.state.project !== '') {
+      this.setState({projectValidated: true});
+    } else {
+      this.setState({projectValidated: false});
+    }
     if (this.state.description.length >= 5 && this.state.description.trim() !== '')
     {
       this.setState({descriptionValidated: true, descriptionError:''});
@@ -128,18 +152,17 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <div className="App nm-cx-theme">
         <header className="App-header">
           <h1 className="App-title">Work Logger</h1>
         </header>
         <div className="formDiv">
-          <WorkForm descripValidated={this.state.descriptionValidated} minutesValidated={this.state.minutesValidated} handleChange={this.handleChange} handleAdd={this.handleAdd}
+          <WorkForm descripValidated={this.state.descriptionValidated} minutesValidated={this.state.minutesValidated} projectValidated={this.state.projectValidated} handleChange={this.handleChange} handleAdd={this.handleAdd}
           project={this.state.project} description={this.state.description} minutes={this.state.minutes} descriptionError={this.state.descriptionError} minutesError={this.state.minutesError}/>
         </div>
+        <hr className="myHr"/>
         <br />
-        <hr />
-        <br />
-        <div className="tasksDiv">
+        <div>
           <TaskDisplay personalTasks={this.state.personalTasks} workTasks={this.state.workTasks} personalTime={this.state.personalTotalTime} workTime={this.state.workTotalTime}/>
         </div>
       </div>
