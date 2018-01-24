@@ -77,7 +77,7 @@ class App extends Component {
     this.state = {
       project: 'Personal',
       description: '',
-      minutes: 0,
+      minutes: 1,
       personalTasks: [],
       personalTotalTime: 0,
       workTasks: [],
@@ -119,7 +119,7 @@ class App extends Component {
       this.setState({workTotalTime: parseInt(this.state.workTotalTime) + parseInt(newTask.minutes)});
     }
     console.log(newTask);
-    this.setState({description:'', minutes: 0, validated: false});
+    this.setState({description:'', minutes: 1, validated: false});
   }
 
   validate() {
