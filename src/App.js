@@ -71,7 +71,6 @@ class WorkForm extends Component {
   }
 }
 
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -100,7 +99,6 @@ class App extends Component {
   }
 
   handleAdd(e) {
-    // validate!
     e.preventDefault();
     let newTask = new TaskItem(this.state.project, this.state.description, this.state.minutes);
     if (this.state.project === 'Personal'){
@@ -121,7 +119,7 @@ class App extends Component {
       this.setState({workTotalTime: parseInt(this.state.workTotalTime) + parseInt(newTask.minutes)});
     }
     console.log(newTask);
-    this.setState({project:'Personal', description:'', minutes: 0, validated: false});
+    this.setState({description:'', minutes: 0, validated: false});
   }
 
   validate() {
