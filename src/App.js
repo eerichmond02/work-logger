@@ -1,8 +1,16 @@
 import React, { Component } from 'react';
 import './App.css';
 
+const Task = (props) => (
+  props.tasks.map((task, idx) => (
+    <div className="taskInner2" key={idx}>
+      <p className="time">{timeFormat(task.minutes)}</p>
+      <p className="taskParagraph">{task.description}</p>
+    </div>
+  ))
+)
 
-const Task = (props) => {
+const TaskDisplay = (props) => {
   return(
     <div className="row">
       <div className="task">
@@ -10,28 +18,14 @@ const Task = (props) => {
           <p className="taskHeading">Personal</p>
           <p>{timeFormat(props.personalTime)}</p>
         </div>
-          {
-            props.personalTasks.map((task, idx) => (
-              <div className="taskInner2" key={idx}>
-                <p className="time">{timeFormat(task.minutes)}</p>
-                <p className="taskParagraph">{task.description}</p>
-              </div>
-            ))
-          }
+          <Task tasks={props.personalTasks}/>
       </div>
       <div className="task">
         <div className="taskInner">
           <p className="taskHeading">Work</p>
           <p>{timeFormat(props.workTime)}</p>
         </div>
-          {
-            props.workTasks.map((task, idx) => (
-              <div className="taskInner2" key={idx}>
-                <p className="time">{timeFormat(task.minutes)}</p>
-                <p className="taskParagraph">{task.description}</p>
-              </div>
-            ))
-          }
+          <Task tasks={props.workTasks}/>
       </div>
     </div>
   );
@@ -146,7 +140,7 @@ class App extends Component {
         <hr />
         <br />
         <div className="tasksDiv">
-          <Task personalTasks={this.state.personalTasks} workTasks={this.state.workTasks} personalTime={this.state.personalTotalTime} workTime={this.state.workTotalTime}/>
+          <TaskDisplay personalTasks={this.state.personalTasks} workTasks={this.state.workTasks} personalTime={this.state.personalTotalTime} workTime={this.state.workTotalTime}/>
         </div>
       </div>
     );
